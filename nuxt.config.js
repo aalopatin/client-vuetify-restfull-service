@@ -1,4 +1,4 @@
-import colors from 'vuetify/es5/util/colors'
+import ru from 'vuetify/es5/locale/ru'
 
 export default {
   mode: 'universal',
@@ -36,6 +36,7 @@ export default {
   */
   buildModules: [
     '@nuxtjs/vuetify',
+    '@nuxtjs/moment'
   ],
   /*
   ** Nuxt.js modules
@@ -49,6 +50,11 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
+    prefix: '/api',
+    proxy: true
+  },
+  proxy: {
+    '/api': 'http://localhost:8081'
   },
   /*
   ** vuetify module configuration
@@ -56,20 +62,14 @@ export default {
   */
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
-    theme: {
-      dark: true,
-      themes: {
-        dark: {
-          primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
-          info: colors.teal.lighten1,
-          warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
-          success: colors.green.accent3
-        }
-      }
+    lang: {
+      locales: { ru },
+      current: 'ru'
     }
+  },
+  moment: {
+    defaultLocale: 'de',
+    locales: ['ru']
   },
   /*
   ** Build configuration
