@@ -1,17 +1,17 @@
 import {isEmpty} from "../modules/utils";
 
-const url = "/admin/settingsreports"
+const url = "/settingsreports"
 
 export const getSettingReport = function ($axios, id, params = {}) {
   return $axios.get(url + `/${id}`, isEmpty(params) ? {} : { params: params })
 }
 
-export const createSettingReport = function ($axios, company) {
-  return $axios.post(url, company)
+export const createSettingReport = function ($axios, setting) {
+  return $axios.post(url, setting)
 }
 
-export const saveSettingReport = function ($axios, company) {
-  return $axios.put(url+ `/${company.id}`, company)
+export const saveSettingReport = function ($axios, setting) {
+  return $axios.put(url+ `/${setting.id}`, setting)
 }
 
 export const deleteSettingReport = function ($axios, id) {

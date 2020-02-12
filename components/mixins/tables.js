@@ -25,7 +25,7 @@ export const groupsItems = {
         return {
           id: group.id,
           title: group.title,
-          basic: group.basic,
+          common: group.common,
           typeReportId: typeReport.id,
           standard: typeReport.standard
         }
@@ -38,15 +38,14 @@ export const settingsItems = {
   computed: {
     settingsItems() {
       return this.settings.map((setting) => {
-        let group = this.groups.find(group => group.id === setting.groupId)
-        let typeReport = this.typesReports.find(typeReport => typeReport.id === group.typeReportId)
+        let typeReport = this.typesReports.find(typeReport => typeReport.id === setting.typeReportId)
         return {
           id: setting.id,
           title: setting.title,
           companyId: setting.companyId,
           common: setting.common,
           groupId: setting.groupId,
-          typeReportId: typeReport.id,
+          typeReportId: setting.typeReportId,
           standard: typeReport.standard
         }
       })

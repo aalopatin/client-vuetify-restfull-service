@@ -1,3 +1,5 @@
+const format = "YYYY-MM-DD"
+
 export const findBy = {
   methods: {
     findBy(value, items, prop = "id") {
@@ -14,22 +16,23 @@ export const findBy = {
 export const getStartPeriod = {
   methods: {
     getStartPeriod(type, startPeriod) {
-      console.log(type)
-      console.log(startPeriod)
       switch (type) {
         case "DATE":
           return startPeriod
         case "MONTH":
-          return this.$moment(startPeriod, "YYYY-MM-DD").startOf("month").format("YYYY-MM-DD")
-        case "TREEMONTHS":
-        case "SIXMONTHS":
+          return this.$moment(startPeriod, format).startOf("month").format(format)
+        case "QUARTER":
+          return this.$moment(startPeriod, format).startOf("quarter").format(format)
+        case "HALFYEAR":
+          let firstHalfYear = this.$moment(startPeriod, format).month() < 6
+          console.log(this.$moment(startPeriod, format).month())
+          console.log(firstHalfYear)
+          return this.$moment(startPeriod, format).startOf("year").add(firstHalfYear ? 0 : 6, "month").format(format)
         case "NINEMONTHS":
         case "TWELVEMONTHS":
-          return this.$moment(startPeriod, "YYYY-MM-DD").startOf("year").format("YYYY-MM-DD")
-        case "QUARTER":
-          return this.$moment(startPeriod, "YYYY-MM-DD").startOf("quarter").format("YYYY-MM-DD")
-        case "HALFYEAR":
-          return this.$moment(startPeriod, "YYYY-MM-DD").startOf("year").add(6, "month").format("YYYY-MM-DD")
+          return this.$moment(startPeriod, format).startOf("year").format(format)
+
+
         default:
           return ""
       }
@@ -45,10 +48,8 @@ export const getEndPeriod = {
           return startPeriod
         case "MONTH":
           return this.$moment(startPeriod, "YYYY-MM-DD").endOf("month").format("YYYY-MM-DD")
-        case "TREEMONTHS":
         case "QUARTER":
           return this.$moment(startPeriod, "YYYY-MM-DD").add(2, "month").endOf("month").format("YYYY-MM-DD")
-        case "SIXMONTHS":
         case "HALFYEAR":
           return this.$moment(startPeriod, "YYYY-MM-DD").add(5, "month").endOf("month").format("YYYY-MM-DD")
         case "NINEMONTHS":
@@ -66,6 +67,14 @@ export const filterBy = {
   methods: {
     filterBy(value, itemsName, prop = "id") {
       return this[itemsName].filter(item => item[prop] === value)
+    }
+  }
+}
+
+export const isEmpty = {
+  methods: {
+    isEmpty(value) {
+      return value === null || value === undefined
     }
   }
 }

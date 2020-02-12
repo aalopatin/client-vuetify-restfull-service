@@ -104,11 +104,11 @@
 
       store.commit('breadcrumbs/set', ADMIN_PARAMETERS)
 
-      let responseParameters = await findAllParameters($axios)
+      let responseParameters = await findAllParameters($axios, {variant: "ID"})
 
       let responseTypesReports = await findAllTypesReports($axios)
 
-      let responseGroupsParameters = await findAllGroupsParameters($axios)
+      let responseGroupsParameters = await findAllGroupsParameters($axios, {variant: "ID"})
 
       return {
         parameters: responseParameters.data,

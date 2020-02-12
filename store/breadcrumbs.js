@@ -16,6 +16,6 @@ export const mutations = {
   },
   pushNext(state, payloads) {
     const count = state.items.length
-    state.items.push({text: payloads.title, to: state.items[count - 1].to + payloads.url})
+    state.items.push({text: payloads.title, exact: payloads.exact, to: state.items[count - 1].to + payloads.url})
   },
 }

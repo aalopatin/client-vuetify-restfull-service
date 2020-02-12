@@ -1,12 +1,10 @@
 export const OPTIONS_TYPE_PERIOD = [
   {value: "DATE", text: "Дата"},
   {value: "MONTH", text: "Месяц"},
-  {value: "TREEMONTHS", text: "Три месяца(первый квартал)"},
-  {value: "SIXMONTHS", text: "Шесть месяцев(первое полугодие)"},
+  {value: "QUARTER", text: "Три месяца(квартал)"},
+  {value: "HALFYEAR", text: "Шесть месяцев(полугодие)"},
   {value: "NINEMONTHS", text: "Девять месяцев"},
-  {value: "TWELVEMONTHS", text: "Двенадцать месяцев(год)"},
-  {value: "QUARTER", text: "Квартал"},
-  {value: "HALFYEAR", text: "Полугодие(второе полугодие)"}
+  {value: "TWELVEMONTHS", text: "Двенадцать месяцев(год)"}
 ]
 
 export const OPTIONS_STANDARD = [
@@ -14,6 +12,12 @@ export const OPTIONS_STANDARD = [
   {value: "IFRS", text: "МСФО"},
   {value: "GAAP", text: "US GAAP"},
   {value: "OTHER", text: "прочее"}
+]
+
+export const OPTIONS_TYPE_ROW_SETTING_REPORT = [
+  {value: "PARAMETER", text: "Параметр"},
+  {value: "HEADER", text: "Заголовок"},
+  {value: "SEPARATOR", text: "Разделитель"},
 ]
 
 export const OPTIONS_MULTIPLICITY = [

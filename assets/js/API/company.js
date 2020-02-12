@@ -1,6 +1,6 @@
 import {isEmpty} from "../modules/utils";
 
-const url = "/admin/companies"
+const url = "/companies"
 
 export const getCompany = function ($axios, id) {
   return $axios.get(url + `/${id}`)

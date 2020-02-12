@@ -20,7 +20,7 @@
                    <v-text-field v-model="editedItem.title" label="Название"></v-text-field>
                    <v-select label="Стандарт" v-model="editedItem.standard" :items="standards" @change="changeStandard"></v-select>
                    <v-select label="Тип отчета" v-model="editedItem.typeReportId" :items="filterBy(editedItem.standard, 'typesReports', 'standard')" item-text="title" item-value="id"></v-select>
-                   <v-checkbox label="Основная" v-model="editedItem.basic"></v-checkbox>
+                   <v-checkbox label="Основная" v-model="editedItem.common"></v-checkbox>
                  </v-col>
                </v-container>
              </v-card-text>
@@ -33,7 +33,7 @@
          </v-dialog>
        </v-toolbar>
      </template>
-     <template v-slot:item.basic="{ value }">
+     <template v-slot:item.common="{ value }">
        <v-icon v-if="value">mdi-check</v-icon>
      </template>
      <template v-slot:item.typeReportId="{ value }">
@@ -74,7 +74,7 @@
         dialog: false,
         headers: [
           { text:"Наименование", value:"title" },
-          { text:"Основная", value:"basic" },
+          { text:"Основная", value:"common" },
           { text:"Тип отчета", value:"typeReportId" },
           { text:"Стандарт", value:"standard" },
           { text: 'Действия', value: 'action', sortable: false }
@@ -83,14 +83,14 @@
         editedItem: {
           id: undefined,
           title: "",
-          basic: false,
+          common: false,
           typeReportId: undefined,
           standard: undefined
         },
         defaultItem: {
           id: undefined,
           title: "",
-          basic: false,
+          common: false,
           typeReportId: undefined,
           standard: undefined
         },
@@ -98,7 +98,7 @@
     },
     async asyncData({$axios, store}) {
       store.commit('breadcrumbs/set', ADMIN_GROUPS_PARAMETERS)
-      let responseGroupsParameters = await findAllGroupsParameters($axios)
+      let responseGroupsParameters = await findAllGroupsParameters($axios, {variant: "ID"})
       let responseTypesReports = await findAllTypesReports($axios)
       return {
         groups: responseGroupsParameters.data,

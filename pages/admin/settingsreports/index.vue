@@ -36,7 +36,7 @@
 
 <script>
   import {ADMIN_SETTINGS_REPORTS} from "../../../assets/js/constants/breadcrumbs";
-  import {findAllSettingsReports} from "../../../assets/js/API/settingReport";
+  import {deleteSettingReport, findAllSettingsReports} from "../../../assets/js/API/settingReport";
   import {settingsItems} from "../../../components/mixins/tables";
   import {findAllGroupsParameters} from "../../../assets/js/API/groupParameters";
   import {findAllTypesReports} from "../../../assets/js/API/typeReport";
@@ -64,10 +64,10 @@
     async asyncData({$axios, store}) {
       store.commit('breadcrumbs/set', ADMIN_SETTINGS_REPORTS)
 
-      let responseSettings = await findAllSettingsReports($axios, {variant: "id"})
+      let responseSettings = await findAllSettingsReports($axios, {variant: "ID"})
       let responseCompanies = await findAllCompanies($axios)
       let responseTypesReports = await findAllTypesReports($axios)
-      let responseGroupsParameters = await findAllGroupsParameters($axios)
+      let responseGroupsParameters = await findAllGroupsParameters($axios, {variant: "ID"})
 
       return {
         settings: responseSettings.data,
@@ -76,6 +76,18 @@
         typesReports: responseTypesReports.data,
       }
     },
+    methods: {
+      deleteItem(item) {
+        const index = this.settingsItems.indexOf(item)
+        let answer = confirm("Вы уверены, что хотите удалить Настройку отчетов: " + item.title + "?")
+        if(answer) {
+          deleteSettingReport(this.$axios, item.id)
+            .then((response) => {
+              this.settings.splice(index, 1)
+            })
+        }
+      },
+    }
   }
 </script>
 

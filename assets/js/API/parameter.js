@@ -1,6 +1,6 @@
 import {isEmpty} from "../modules/utils";
 
-const url = `/admin/parameters`
+const url = `/parameters`
 
 export const findAllParameters = function($axios, params = {}){
   return $axios.get(url, isEmpty(params) ? {} : { params: params })

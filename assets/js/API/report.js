@@ -1,16 +1,27 @@
-const url = `/admin/reports`
+import {isEmpty} from "../modules/utils";
 
-export const create = function(reports){
+const url = `/reports`
 
-  return this.$axios.post(url, reports)
-    .then(result =>
-    {
-      return result
-    })
+export const getReport = function ($axios, id, params = {}) {
+  return $axios.get(url + `/${id}`, isEmpty(params) ? {} : { params: params })
+}
 
+export const createReports = function ($axios, reports) {
+  return $axios.post(url, { data: reports })
+}
+
+export const findAllReports = function($axios, params = {}){
+  return $axios.get(url, isEmpty(params) ? {} : { params: params })
+}
+
+export const deleteReport = function ($axios, id) {
+  return $axios.delete(url + `/${id}`)
 }
 
 export default {
-  create: create
+  get: getReport,
+  create: createReports,
+  findAll: findAllReports,
+  delete: deleteReport
 }
 

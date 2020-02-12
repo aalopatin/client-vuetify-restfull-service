@@ -1,6 +1,6 @@
 import {isEmpty} from "../modules/utils";
 
-const url = `/admin/typesreports`
+const url = `/typesreports`
 
 export const findAllTypesReports = function($axios, params = {}){
   return $axios.get(url, isEmpty(params) ? {} : { params: params })
@@ -19,5 +19,8 @@ export const deleteTypeReport = function ($axios, id) {
 }
 
 export default {
-  findAll: findAllTypesReports
+  findAll: findAllTypesReports,
+  create: createTypeReport,
+  save: saveTypeReport,
+  delete: deleteTypeReport
 }

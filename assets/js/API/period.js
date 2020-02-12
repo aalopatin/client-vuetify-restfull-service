@@ -1,8 +1,6 @@
 import {isEmpty} from "../modules/utils";
-import {deleteParameter, saveParameter} from "./parameter";
-import {createCompany, deleteCompany, findAllCompanies, getCompany, saveCompany} from "./company";
 
-const url = "/admin/periods"
+const url = "/periods"
 
 export const createPeriod = function ($axios, period) {
   return $axios.post(url, period)
@@ -21,6 +19,7 @@ export const deletePeriod = function ($axios, id) {
 }
 
 export default {
+  create: createPeriod,
   save: savePeriod,
   findAll: findAllPeriods,
   delete: deletePeriod,
