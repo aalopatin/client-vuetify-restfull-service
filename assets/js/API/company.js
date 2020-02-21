@@ -22,6 +22,18 @@ export const findAllCompanies = function($axios, params = {}){
   return $axios.get(url, isEmpty(params) ? {} : { params: params })
 }
 
+export const uploadLogo = function ($axios, id, logo) {
+  let formData = new FormData()
+  formData.append("logo", logo)
+  return $axios.post(url+ `/${id}/logo`,
+    formData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+}
+
 export default {
   get: getCompany,
   create: createCompany,

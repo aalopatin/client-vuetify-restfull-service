@@ -78,3 +78,54 @@ export const isEmpty = {
     }
   }
 }
+
+export const getTextPeriod = {
+  methods: {
+    getTextPeriod(value) {
+      if (value !== null) {
+        let months = [
+          { value: "JAN", text: "Январь " },
+          { value: "FEB", text: "Февраль " },
+          { value: "MAR", text: "Март " },
+          { value: "APR", text: "Апрель " },
+          { value: "MAY", text: "Май " },
+          { value: "JUN", text: "Июнь " },
+          { value: "JUL", text: "Июль " },
+          { value: "AUG", text: "Август " },
+          { value: "SEP", text: "Сентябрь " },
+          { value: "OCT", text: "Октябрь " },
+          { value: "NOV", text: "Ноябрь " },
+          { value: "DEC", text: "Декабрь " }
+        ]
+        if (value.includes("M")) {
+          console.log("M")
+          let text
+          if (value[0] === "3") {
+            text = " месяца "
+          } else {
+            text = " месяцев "
+          }
+          value = value.replace("M", text)
+        }
+        if (value.includes("Q")) {
+          value = value.replace("Q"," квартал " )
+        }
+        if (value.includes("H")) {
+          value = value.replace("H"," полугодие " )
+        }
+        for (let i = 0; i < 12; i++) {
+          if (value.includes(months[i].value)) {
+            value = value.replace(months[i].value,months[i].text)
+            break
+          }
+        }
+
+        if (value.length == 8) {
+          value = this.$moment(value, "DDMMYYYY").format("DD MMMM YYYY")
+        }
+        value += " г."
+      }
+      return value
+    }
+  }
+}

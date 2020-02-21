@@ -176,14 +176,14 @@
   import {ADMIN_COMPANIES} from "../../../../../assets/js/constants/breadcrumbs";
   import WlPeriodSelect from "../../../../../components/parts/wl-period-select";
   import {OPTIONS_CURRENCY, OPTIONS_MULTIPLICITY, OPTIONS_STANDARD} from "../../../../../assets/js/constants/options";
-  import {filterBy, findBy} from "../../../../../components/mixins/utils";
+  import {filterBy, findBy, isEmpty} from "../../../../../components/mixins/utils";
   import {findAllSettingsReports} from "../../../../../assets/js/API/settingReport";
   import {findAllParameters} from "../../../../../assets/js/API/parameter";
   import {createReports, findAllReports} from "../../../../../assets/js/API/report";
 
   export default {
     components: {WlPeriodSelect, draggable},
-    mixins: [filterBy, findBy],
+    mixins: [filterBy, findBy, isEmpty],
     data() {
       return {
         valid: false,
@@ -291,13 +291,14 @@
       },
       parameters() {
         let parameters = this.commonParameters.concat(this.selectedParameters)
+
         return parameters.map((parameter) => {
           let rowSetting = this.setting.rows
             .find((row) => row.typeRow === "PARAMETER" && row.parameterId === parameter.id)
           return {
             id: parameter.id,
             title: parameter.title,
-            settingTitle: rowSetting.title
+            settingTitle: this.isEmpty(rowSetting) ? null : rowSetting.title
           }
         })
       }

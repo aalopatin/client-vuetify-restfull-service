@@ -68,7 +68,7 @@ export default {
     }
   },
   moment: {
-    defaultLocale: 'de',
+    defaultLocale: 'ru',
     locales: ['ru']
   },
   /*
