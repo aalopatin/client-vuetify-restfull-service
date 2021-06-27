@@ -42,13 +42,12 @@
   import {findAllTypesReports} from "../../../assets/js/API/typeReport";
   import {findAllCompanies} from "../../../assets/js/API/company";
   import {findBy} from "../../../components/mixins/utils";
-  import {OPTIONS_STANDARD} from "../../../assets/js/constants/options";
+  import {standards} from "../../../components/mixins/options";
 
   export default {
-    mixins: [settingsItems, findBy],
+    mixins: [settingsItems, findBy, standards],
     data() {
       return {
-        standards: OPTIONS_STANDARD,
         headers: [
           { text:"Название", value:"title"},
           { text:"Общая", value:"common"},

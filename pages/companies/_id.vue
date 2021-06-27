@@ -1,8 +1,4 @@
 <template>
-  <v-col
-    cols="12"
-    lg="8"
-  >
   <v-card>
     <v-card-title>{{company.title}}</v-card-title>
     <v-container>
@@ -11,25 +7,25 @@
           <v-img :src="company.logoURI !== null ? company.logoURI : ''"></v-img>
         </v-col>
         <v-col>
-            <v-text-field
-              v-model="company.title"
-              label="Название"
-              readonly
-            ></v-text-field>
-            <v-text-field
-              v-model="company.fullTitle"
-              label="Полное название"
-              readonly
-            ></v-text-field>
-            <v-textarea
-              v-model="company.description"
-              label="Описание"
-              auto-grow
-              readonly
-            ></v-textarea>
-          </v-col>
-        </v-row>
-      </v-container>
+          <v-text-field
+            v-model="company.title"
+            label="Название"
+            readonly
+          ></v-text-field>
+          <v-text-field
+            v-model="company.fullTitle"
+            label="Полное название"
+            readonly
+          ></v-text-field>
+          <v-textarea
+            v-model="company.description"
+            label="Описание"
+            auto-grow
+            readonly
+          ></v-textarea>
+        </v-col>
+      </v-row>
+    </v-container>
     <v-container>
       <v-tabs>
         <v-tab>Отчеты</v-tab>
@@ -55,21 +51,19 @@
       </v-tabs>
     </v-container>
   </v-card>
-    </v-col>
 </template>
 
 <script>
-  import {OPTIONS_CURRENCY} from "../../assets/js/constants/options";
   import {getCompany} from "../../assets/js/API/company";
   import {findAllReports} from "../../assets/js/API/report";
   import {VARIANT} from "../../assets/js/constants/constants";
   import {findBy, getTextPeriod} from "../../components/mixins/utils";
+  import {currencies} from "../../components/mixins/options";
 
   export default {
-    mixins:[findBy, getTextPeriod],
+    mixins:[findBy, getTextPeriod, currencies],
     data() {
       return {
-        currencies: OPTIONS_CURRENCY,
         headersReports: [
           { text: "Тип отчета", value: "typeReportTitle" },
           { text: "Период", value: "periodId" },

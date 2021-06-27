@@ -47,7 +47,6 @@
 
 <script>
   import {ADMIN_TYPES_REPORTS} from "../../../assets/js/constants/breadcrumbs";
-  import {OPTIONS_STANDARD} from "../../../assets/js/constants/options";
   import {
     createTypeReport,
     deleteTypeReport,
@@ -55,12 +54,12 @@
     saveTypeReport
   } from "../../../assets/js/API/typeReport";
   import {findBy} from "../../../components/mixins/utils";
+  import {standards} from "../../../components/mixins/options";
 
   export default {
-    mixins: [findBy],
+    mixins: [findBy, standards],
     data() {
       return {
-        standards: OPTIONS_STANDARD,
         dialog: false,
         headers: [
           { text:"Наименование", value:"title" },

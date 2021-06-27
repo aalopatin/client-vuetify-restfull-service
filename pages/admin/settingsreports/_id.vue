@@ -93,7 +93,7 @@
         </thead>
         <draggable v-model="setting.rows" tag="tbody">
           <tr style="height: 37px" v-for="item in setting.rows" :key="item.typeRow + item.parameterId + item.title">
-            <td>{{ findBy(item.typeRow, typesRow, "value").text }}</td>
+            <td>{{ findBy(item.typeRow, typesRowsSettingReport, "value").text }}</td>
             <td v-if="item.typeRow === 'PARAMETER' ">{{ findBy(item.parameterId, parameters).title }}</td>
             <td v-else-if="item.typeRow === 'HEADER'">{{ item.title }}</td>
             <td v-else>-</td>
@@ -105,9 +105,11 @@
       v-else
       :headers="headers"
       :items="setting.rows"
-      :disable-sort="true"
-      :disable-pagination="true"
+      item-key="index"
+      disable-sort
+      disable-pagination
       hide-default-footer
+      show-expand
     >
       <template v-slot:top>
         <v-toolbar flat>
@@ -138,11 +140,11 @@
           :return-value.sync="props.item.typeRow"
           large
           persistent
-        > {{ findBy(props.item.typeRow, typesRow, "value").text }}
+        > {{ findBy(props.item.typeRow, typesRowsSettingReport, "value").text }}
           <template v-slot:input>
             <v-select
               v-model="props.item.typeRow"
-              :items="typesRow"
+              :items="typesRowsSettingReport"
             ></v-select>
           </template>
         </v-edit-dialog>
@@ -150,10 +152,11 @@
       <template v-slot:item.parameterId="props">
         <v-edit-dialog
           v-if="props.item.typeRow === 'PARAMETER'"
-          :return-value.sync="props.item.parameterId"
+          :return-value="props.item.parameterId"
           large
           persistent
-        > {{ findBy(props.item.parameterId, parameters).title }}
+
+        > <div :class="props.item.fontStyle + ' ' + props.item.fontSize">{{ findBy(props.item.parameterId, parameters).title }}</div>
           <template v-slot:input>
             <v-autocomplete
               v-model="props.item.parameterId"
@@ -203,6 +206,34 @@
           <v-icon small>mdi-close-circle</v-icon>
         </v-btn>
       </template>
+      <template v-slot:expanded-item="{ item, headers }">
+        <td :colspan="headers.length">
+          <v-col cols="12">
+            <v-select
+              v-model="item.fontStyle"
+              :items="fontStyles"
+              label="Стиль шрифта"
+              clearable
+            >
+              <template v-slot:item="{item}">
+                <div :class="item.value">{{item.text}}</div>
+              </template>
+            </v-select>
+          </v-col>
+          <v-col cols="12">
+            <v-select
+              v-model="item.fontSize"
+              :items="fontSizes"
+              label="Размер шрифта"
+              clearable
+            >
+              <template v-slot:item="{item}">
+                <div :class="item.value">{{item.text}}</div>
+              </template>
+            </v-select>
+          </v-col>
+        </td>
+      </template>
     </v-data-table>
 
   </v-card>
@@ -212,23 +243,21 @@
   import draggable from "vuedraggable";
   import {ADMIN_SETTINGS_REPORTS, ADMIN_SETTINGS_REPORTS_CREATE} from "../../../assets/js/constants/breadcrumbs";
   import {findAllCompanies} from "../../../assets/js/API/company";
-  import {OPTIONS_STANDARD, OPTIONS_TYPE_ROW_SETTING_REPORT} from "../../../assets/js/constants/options";
   import {filterBy, findBy} from "../../../components/mixins/utils";
   import {findAllTypesReports} from "../../../assets/js/API/typeReport";
   import {findAllGroupsParameters} from "../../../assets/js/API/groupParameters";
   import {createSettingReport, getSettingReport, saveSettingReport} from "../../../assets/js/API/settingReport";
   import {VARIANT} from "../../../assets/js/constants/constants";
   import {findAllParameters} from "../../../assets/js/API/parameter";
+  import {fontSizes, fontStyles, standards, typesRowsSettingReport} from "../../../components/mixins/options";
 
   export default {
     components: {
       draggable
     },
-    mixins: [filterBy, findBy],
+    mixins: [filterBy, findBy, standards, typesRowsSettingReport, fontStyles, fontSizes],
     data() {
       return {
-        standards: OPTIONS_STANDARD,
-        typesRow: OPTIONS_TYPE_ROW_SETTING_REPORT,
         onlyCommon: true,
         draggableRows: false,
         headers: [
@@ -240,7 +269,9 @@
         defaultRow: {
           typeRow: "PARAMETER",
           parameterId: null,
-          title: ""
+          title: null,
+          fontStyle: null,
+          fontSize: null
         },
         valid: true
       }
@@ -250,6 +281,7 @@
       let isCreate = params.id === "create"
 
       let setting = {}
+      let index = 0
       let commonParameters = []
       let selectedParameters = []
       let responseCompanies = await findAllCompanies($axios)
@@ -263,6 +295,10 @@
       if(!isCreate) {
         let responseSetting = await getSettingReport($axios, params.id, {variant: VARIANT.ID, rows: true})
         setting = responseSetting.data
+
+        setting.rows.forEach((row) => {
+          row.index = index++
+        })
 
         let typeReport = typesReports.find(typeReport => typeReport.id === setting.typeReportId)
 
@@ -295,6 +331,7 @@
       return {
         isCreate: isCreate,
         setting: setting,
+        index: index,
         companies: companies,
         groups: groups,
         typesReports: typesReports,
@@ -346,7 +383,10 @@
               row.parameterId = null
             }
             if (row.typeRow === "SEPARATOR") {
-              row.title = ""
+              row.title = null
+            }
+            if(row.title === "") {
+              row.title = null
             }
             return row
           })
@@ -384,7 +424,9 @@
         return title
       },
       addRow() {
-        this.setting.rows.push(Object.assign({}, this.defaultRow))
+        let newRow = Object.assign({}, this.defaultRow)
+        newRow.index = this.index++
+        this.setting.rows.push(newRow)
       }
     }
   }

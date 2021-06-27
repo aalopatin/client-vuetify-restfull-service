@@ -1,8 +1,5 @@
 <template>
-  <v-col
-    cols="12"
-    lg="8"
-  >
+  <v-col>
     <wl-list-last-added-reports></wl-list-last-added-reports>
     <v-divider class="mb-5"></v-divider>
     <wl-list-cards-companies></wl-list-cards-companies>

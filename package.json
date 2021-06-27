@@ -13,7 +13,10 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
     "nuxt": "^2.0.0",
-    "vuedraggable": "^2.23.2"
+    "@nuxtjs/auth": "^4.8.1",
+    "vuedraggable": "^2.23.2",
+    "vue-recaptcha": "^1.2.0",
+    "vuelidate": "^0.7.4"
   },
   "devDependencies": {
     "@nuxtjs/moment": "^1.5.0",

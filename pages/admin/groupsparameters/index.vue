@@ -61,16 +61,15 @@
     findAllGroupsParameters,
     saveGroupParameter
   } from "../../../assets/js/API/groupParameters";
-  import {OPTIONS_STANDARD} from "../../../assets/js/constants/options";
   import {findAllTypesReports} from "../../../assets/js/API/typeReport";
   import {filterBy, findBy} from "../../../components/mixins/utils";
   import {groupsItems} from "../../../components/mixins/tables";
+  import {standards} from "../../../components/mixins/options";
 
   export default {
-    mixins: [findBy, filterBy, groupsItems],
+    mixins: [findBy, filterBy, groupsItems, standards],
     data() {
       return {
-        standards: OPTIONS_STANDARD,
         dialog: false,
         headers: [
           { text:"Наименование", value:"title" },

@@ -18,6 +18,7 @@
 <script>
   import WlNavigationDrawerAdmin from "../components/parts/wl-navigation-drawer-admin";
   export default {
+    middleware: 'admin',
     components: {WlNavigationDrawerAdmin}
   }
 </script>

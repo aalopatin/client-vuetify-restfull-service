@@ -130,7 +130,7 @@
       </template>
       <template v-slot:item.parameterId="props">
         <v-edit-dialog
-          :return-value.sync="props.item.parameterId"
+          :return-value="props.item.parameterId"
           large
           persistent
         > {{ findBy(props.item.parameterId, parameters).title }}
@@ -175,15 +175,15 @@
   import {findAllTypesReports} from "../../../../../assets/js/API/typeReport";
   import {ADMIN_COMPANIES} from "../../../../../assets/js/constants/breadcrumbs";
   import WlPeriodSelect from "../../../../../components/parts/wl-period-select";
-  import {OPTIONS_CURRENCY, OPTIONS_MULTIPLICITY, OPTIONS_STANDARD} from "../../../../../assets/js/constants/options";
   import {filterBy, findBy, isEmpty} from "../../../../../components/mixins/utils";
   import {findAllSettingsReports} from "../../../../../assets/js/API/settingReport";
   import {findAllParameters} from "../../../../../assets/js/API/parameter";
   import {createReports, findAllReports} from "../../../../../assets/js/API/report";
+  import {currencies, multiplicities, standards} from "../../../../../components/mixins/options";
 
   export default {
     components: {WlPeriodSelect, draggable},
-    mixins: [filterBy, findBy, isEmpty],
+    mixins: [filterBy, findBy, isEmpty, standards, multiplicities, currencies],
     data() {
       return {
         valid: false,
@@ -226,9 +226,6 @@
         headerTitle: { text: "Название показателя", value: "title"},
         headerParameter: { text: "Параметр", value: "parameterId" },
         headerRowMessage: { text: "", value: "message"},
-        standards: OPTIONS_STANDARD,
-        multiplicities: OPTIONS_MULTIPLICITY,
-        currencies: OPTIONS_CURRENCY,
         standard: null,
         typeReportId: null,
         multiplicity: null,
@@ -369,15 +366,16 @@
         this.data.splice(0)
         let dataTable = this.textExcel.split('\n')
         let countHeaders = this.headers.length
-        let countCell = dataTable[0].split('\t').length
-        let maxCountHeaders = countHeaders < countCell ? countHeaders : countCell
+
         dataTable
           .forEach((row) => {
             let newRow = this.row()
             let cells = row.split('\t')
+            let countCell = cells.length
+            let maxCountHeaders = countHeaders < countCell ? countHeaders : countCell
             for (let i = 0; i < maxCountHeaders ; i++ ) {
               let strValue = cells[i]
-              let floatValue = parseFloat(strValue)
+              let floatValue = parseFloat(strValue.replace(/[,]+/g, '.'))
               if (strValue !== undefined && strValue !== "") {
                 newRow[this.headers[i].value] = i === 0  ? strValue : isNaN(floatValue) ? null : floatValue
               }
@@ -493,6 +491,9 @@
               rows: []
             }
             this.data.forEach((row) => {
+              if (this.isEmpty(row[period])) {
+                return
+              }
               let rowReport = {
                 parameterId: row.parameterId,
                 value: row[period]

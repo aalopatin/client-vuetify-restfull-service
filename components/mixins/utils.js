@@ -98,7 +98,6 @@ export const getTextPeriod = {
           { value: "DEC", text: "Декабрь " }
         ]
         if (value.includes("M")) {
-          console.log("M")
           let text
           if (value[0] === "3") {
             text = " месяца "

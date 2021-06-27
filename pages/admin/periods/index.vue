@@ -73,13 +73,12 @@
   import {ADMIN_PERIODS} from "../../../assets/js/constants/breadcrumbs";
   import {createPeriod, deletePeriod, findAllPeriods, savePeriod} from "../../../assets/js/API/period";
   import {findBy, getEndPeriod, getStartPeriod} from "../../../components/mixins/utils";
-  import {OPTIONS_TYPE_PERIOD} from "../../../assets/js/constants/options";
+  import {typesPeriods} from "../../../components/mixins/options";
 
   export default {
-    mixins: [findBy, getEndPeriod, getStartPeriod],
+    mixins: [findBy, getEndPeriod, getStartPeriod, typesPeriods],
     data() {
       return {
-        typesPeriods: OPTIONS_TYPE_PERIOD,
         dialog: false,
         startPeriodPicker: false,
         headers: [

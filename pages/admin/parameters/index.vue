@@ -59,19 +59,18 @@
 </template>
 
 <script>
-  import {OPTIONS_STANDARD} from "../../../assets/js/constants/options";
   import {ADMIN_PARAMETERS} from "../../../assets/js/constants/breadcrumbs";
   import {createParameter, deleteParameter, findAllParameters, saveParameter} from "../../../assets/js/API/parameter";
   import {findAllTypesReports} from "../../../assets/js/API/typeReport";
   import {findAllGroupsParameters} from "../../../assets/js/API/groupParameters";
   import {parametersItems} from "../../../components/mixins/tables";
   import {filterBy, findBy} from "../../../components/mixins/utils";
+  import {standards} from "../../../components/mixins/options";
 
   export default {
-    mixins: [findBy, filterBy, parametersItems],
+    mixins: [findBy, filterBy, parametersItems, standards],
     data() {
       return {
-        standards: OPTIONS_STANDARD,
         dialog: false,
         headers: [
           { text:"Наименование", value:"title" },

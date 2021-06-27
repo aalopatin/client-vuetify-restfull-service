@@ -77,17 +77,14 @@
   import {findAllCompanies} from "../../../assets/js/API/company";
   import {findAllTypesReports} from "../../../assets/js/API/typeReport";
   import {findAllPeriods} from "../../../assets/js/API/period";
-  import {OPTIONS_CURRENCY, OPTIONS_MULTIPLICITY, OPTIONS_STANDARD} from "../../../assets/js/constants/options";
   import {filterBy} from "../../../components/mixins/utils";
+  import {currencies, multiplicities, standards} from "../../../components/mixins/options";
 
   export default {
-    mixins: [filterBy],
+    mixins: [filterBy, standards, multiplicities, currencies],
     data() {
       return {
-        valid: false,
-        standards: OPTIONS_STANDARD,
-        multiplicities: OPTIONS_MULTIPLICITY,
-        currencies: OPTIONS_CURRENCY
+        valid: false
       }
     },
     async asyncData({params, $axios, store}) {

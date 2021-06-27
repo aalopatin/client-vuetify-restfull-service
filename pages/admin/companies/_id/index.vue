@@ -93,18 +93,17 @@
 
 <script>
   import {ADMIN_COMPANIES, ADMIN_COMPANIES_CREATE} from "../../../../assets/js/constants/breadcrumbs";
-  import {createCompany, getCompany, getLogo, saveCompany, uploadLogo} from "../../../../assets/js/API/company";
+  import {createCompany, getCompany, saveCompany, uploadLogo} from "../../../../assets/js/API/company";
   import {deleteReport, findAllReports} from "../../../../assets/js/API/report";
-  import {OPTIONS_CURRENCY} from "../../../../assets/js/constants/options";
   import {findBy} from "../../../../components/mixins/utils";
   import {VARIANT} from "../../../../assets/js/constants/constants";
+  import {currencies} from "../../../../components/mixins/options";
 
   export default {
-    mixins: [findBy],
+    mixins: [findBy, currencies],
     data() {
       return {
         valid: true,
-        currencies: OPTIONS_CURRENCY,
         selectedLogo: null,
         headersReports: [
           { text: "Тип отчета", value: "typeReportTitle" },
